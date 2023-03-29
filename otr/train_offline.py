@@ -1,5 +1,11 @@
 import functools
+import os
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "3, 4"
+os.environ["D4RL_SUPPRESS_IMPORT_ERROR"] = "1"
+
+os.environ["MUJOCO_GL"] = "egl"
+os.environ["MUJOCO_EGL_DEVICES_ID"] = "4"
 from absl import app
 from absl import flags
 import acme
@@ -50,6 +56,9 @@ def get_demonstration_dataset(config):
   """Return the relabeled offline dataset."""
   expert_dataset_name = config.expert_dataset_name
   offline_dataset_name = config.offline_dataset_name
+  
+  config.use_dataset_reward = False #manually added
+  
   if config.use_dataset_reward:
     offline_traj = dataset_utils.load_trajectories(offline_dataset_name)
     if "antmaze" in offline_dataset_name:
@@ -135,7 +144,7 @@ def main(_):
       evaluator_time_delta=0)
 
   dataset = get_demonstration_dataset(config)
-
+ 
   # Create dataset iterator for the relabeled dataset
   key = jax.random.PRNGKey(config.seed)
   key_learner, key_demo, key = jax.random.split(key, 3)

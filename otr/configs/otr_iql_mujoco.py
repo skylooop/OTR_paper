@@ -17,7 +17,7 @@ def get_config():
   # If false, use the reward computed by OTR
   config.use_dataset_reward = False
   # If true, log to wandb
-  config.log_to_wandb = False
+  config.log_to_wandb = True
   # Wandb logging configuration
   config.wandb_project = 'otr'
   config.wandb_entity = None
@@ -26,7 +26,7 @@ def get_config():
   # No. of episodes to pick from the expert dataset to use
   config.k = 10
   # D4RL dataset to use as the unlabeled dataset
-  config.offline_dataset_name = 'hopper-medium-replay-v2'
+  config.offline_dataset_name = 'hopper-random-v2'
 
   # OTIL config
   # Squashing function to use
